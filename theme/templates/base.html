@@ -1,0 +1,35 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Photography CRM{% endblock %}</title>
+    {% tailwind_css %}
+</head>
+
+<body class="min-h-screen bg-gray-50 text-gray-900">
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+            <a href="{% url 'dashboard' %}" class="font-semibold">Photo CRM</a>
+            <div class="flex items-center gap-4 text-sm">
+                {% if user.is_authenticated %}
+                <span class="text-gray-600">{{ user.username }}</span>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="hover:underline">Log out</button>
+                </form>
+                {% else %}
+                <a href="{% url 'login' %}" class="hover:underline">Log in</a>
+                <a href="{% url 'signup' %}" class="bg-gray-900 text-white px-3 py-1.5 rounded-lg">Sign up</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-5xl mx-auto px-4 py-10">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+
+</html>
